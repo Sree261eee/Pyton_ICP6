@@ -45,12 +45,15 @@ plt.ylabel('Wcss')
 plt.show()
 
 #Dataframe for PCA data
-df = pd.DataFrame(data=x_pca)
+df = pd.DataFrame(data=x_pca, columns=["x", "y"])
 finaldf = pd.concat([df,dataset[['TENURE']]],axis=1)
 #for k=5 we got the better accuracy
 nclusters = 5 # this is the k in kmeans
 km = KMeans(n_clusters=nclusters)
 km.fit(df)
+plt.scatter(df["x"], df["y"])
+plt.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1], s=300, c='red')
+plt.show()
 yscaled_cluster_kmeans = km.predict(df)
 scaled_score = metrics.silhouette_score(df, yscaled_cluster_kmeans)
 print(scaled_score)
